@@ -16,6 +16,7 @@
 
 package org.quiltmc.qsl.resource.loader.mixin.client;
 
+import net.minecraft.unmapped.C_sedilmty;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -47,18 +48,19 @@ public abstract class PackScreenMixin extends Screen {
 
 	@SuppressWarnings("unchecked")
 	@Inject(method = "render", at = @At("TAIL"))
-	private void renderTooltips(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+	private void renderTooltips(C_sedilmty c_sedilmty, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		ResourcePackEntry availableEntry = this.availablePackList.getHoveredEntry();
 		if (availableEntry != null) {
 			if (((ResourcePackEntryAccessor) availableEntry).getPack().getSource() instanceof BuiltinResourcePackSource source) {
-				this.renderTooltip(matrices, source.getTooltip(), mouseX, mouseY);
+				this.renderWithTooltip(c_sedilmty, source.getTooltip(), mouseX, mouseY);
 			}
 		}
 
 		ResourcePackEntry selectedEntry = this.selectedPackList.getHoveredEntry();
 		if (selectedEntry != null) {
 			if (((ResourcePackEntryAccessor) selectedEntry).getPack().getSource() instanceof BuiltinResourcePackSource source) {
-				this.renderTooltip(matrices, source.getTooltip(), mouseX, mouseY);
+				this.renderWithTooltip(c_sedilmty, source.getTooltip(), mouseX, mouseY);
+				this.renderWithTooltip(c_sedilmty, source.getTooltip(), mouseX, mouseY);
 			}
 		}
 	}
